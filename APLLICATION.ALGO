@@ -1,0 +1,113 @@
+ALGORITHM probleme1_methode1
+
+
+//methode 1 probleme 1
+
+
+VAR
+    arr1,arr2: ARRAY_OF INTEGER[];
+    sum,j:INTEGER;
+    test:BOOLEAN;
+BEGIN
+    Read(arr1);
+    Read(arr2);
+    sum:=0;
+    //comparer les elements du tableau 1 avec 2
+    FOR i FROM 0 TO arr1.length-1 STEP 1  DO
+        j:=0;
+        test:=true;
+        WHILE(j<arr2.length AND test) DO
+            IF (arr1[i]=arr2[j]) THEN
+                test:=false;
+            ELSE
+                j:=j+1;
+            END_IF
+        END_WHILE
+        IF(test) THEN
+            sum:=sum+arr1[i]
+        END_IF
+    END_FOR
+    //comparer les elements du tableau 2 avec 1
+    FOR i FROM 0 TO arr2.length-1 STEP 1  DO
+        j:=0;
+        test:=true;
+        WHILE(j<arr1.length AND test)  DO
+            IF (arr2[i]=arr1[j]) THEN
+                test:=false;
+            ELSE
+                j:=j+1;
+            END_IF
+        END_WHILE
+        IF(test) THEN
+            sum:=sum+arr2[i]
+        END_IF
+    END_FOR
+    write ("la somme des entiers differents est :",sum);
+END
+
+//methode 2 probleme 1
+ALGORITHM probleme1_methode2
+VAR
+    var arr1: ARRAY_OF INTEGER[];
+    var arr2: ARRAY_OF INTEGER[];
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    tab : ARRAY_OF INTEGER[];
+    sum : INTEGER:=0;
+BEGIN
+    FOR i FROM 0 TO arr1.length-1 STEP 1  DO
+        htab.insert(arr1[i],1);
+    END_FOR
+    FOR i FROM 0 TO arr2.length-1 STEP 1  DO
+        IF (htab.lookup(arr2[i])=true) THEN
+            htab.insert(arr2[i],2)
+        ELSE
+            htab.insert(arr2[i],1);
+        END_IF
+    END_FOR
+    tab=htab.getkeys();
+    FOR i FROM 0 TO tab.length-1 STEP 1  DO
+        IF (htab.get(tab[i])=1) THEN
+            sum+=tab[i];
+        END_IF
+    END_FOR
+    write("la somme des entiers differents est :",sum);
+END
+
+
+//probleme 2
+ALGORITHM problem2_Solution1
+VAR
+    arr1 : ARRAY_OF INTEGER[];
+    arr2 : ARRAY_OF INTEGER[];
+    sum,i,j  : INTEGER := 0;
+BEGIN
+    FOR i FROM 0 TO arr1.length-1 STEP 1  DO
+        FOR j FROM 0 TO arr2.length-1 STEP 1  DO
+            IF (arr1[i] = arr2[j]) THEN
+                sum :=sum+ arr2[j]*2; 
+            END_IF    
+        END_FOR
+    END_FOR
+    write("la somme des entiers repetes est :="sum)
+END
+//problem2_methde2
+ALGORITHM probleme2_using_stack
+VAR
+    var arr1: ARRAY_OF INTEGER[];
+    var arr2: ARRAY_OF INTEGER[];
+    sum: INTEGER:=0;
+    stk: STACK;
+BEGIN
+    FOR i FROM 1 TO arr1.length step 1 DO
+        FOR j FROM 0 TO arr2.length STEP 1  DO
+            IF (arr1[i]=arr2[j]) THEN
+                stk.push(arr1[i]*2)
+            END_IF
+        END_FOR
+    END_FOR
+    WHILE (NOT stk.isEmpty()) DO
+        sum:=sum+stk.peek();
+        stk.pop();
+    END_WHILE
+    write("la somme des entiers repetes est :="sum);
+END
